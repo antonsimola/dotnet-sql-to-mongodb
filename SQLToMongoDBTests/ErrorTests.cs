@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using MongoDB.Driver;
+using NUnit.Framework;
 using SQLToMongoDB;
 
 namespace SQLToMongoDBTests;
@@ -11,6 +12,6 @@ public class ErrorTests
     public void ItReportsErrors()
     {
 
-        Assert.Throws<SqlParseException>(() => MongoDatabaseExtensions.SqlQuery<User>(null, "Select * from users where ((())"));
+        Assert.Throws<SqlParseException>(() => MongoDatabaseExtensions.SqlQuery<User>((IMongoDatabase)null, "Select * from users where ((())"));
     }
 }

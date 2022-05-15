@@ -100,11 +100,11 @@ public class FilterBuilderVisitor<T> : TSqlConcreteFragmentVisitor
             else
                 filter |= expr;
         }
+    }
 
-
-        // filter = filter & (node.BinaryExpressionType == BooleanBinaryExpressionType.And
-        //     ? filterBuilder.And(curExprs)
-        //     : filterBuilder.Or(curExprs));
+    public override void ExplicitVisit(BinaryExpression node)
+    {
+        base.ExplicitVisit(node); 
     }
 
     public override void ExplicitVisit(BooleanComparisonExpression node)

@@ -13,6 +13,20 @@ public class SqlParseException: Exception
 
 public static class MongoDatabaseExtensions
 {
+    public static IList<T> SqlQuery<T>(this IMongoClient client, string query)
+    {
+        
+        //Todo should be able to query client level 
+        throw new NotImplementedException();
+    }
+    
+    public static IList<T> SqlQuery<T>(this IMongoCollection<T> coll, string query)
+    {
+        //Todo should be able to query collection level (from clause not needed?) 
+        throw new NotImplementedException();
+    }
+
+
     public static IList<T> SqlQuery<T>(this IMongoDatabase db, string query)
     {
         var parser = new TSql150Parser(initialQuotedIdentifiers: false);
@@ -37,11 +51,20 @@ public static class MongoDatabaseExtensions
         var agg = coll.Aggregate();
 
         agg = AppendMatch<T>(agg, parts);
-        var withProject = AppendProject(agg, parts);
-        Console.WriteLine(withProject.ToString());
-        return withProject.ToList();
+        agg = AppendGroupBy(agg, parts);
+        agg = AppendProject(agg, parts);
+        agg = AppendSkip(agg, parts);
+        agg = AppendLimit(agg, parts);
+        Console.WriteLine(agg);
+        return agg.ToList();
     }
- 
+
+    private static IAggregateFluent<T> AppendGroupBy<T>(IAggregateFluent<T> agg, QueryParts<T> parts)
+    {
+        if (parts.GroupByDefinition == null) return agg;
+        return agg.Group<T>(parts.GroupByDefinition);
+    }
+
     private static string GetErrorStrings(string fullQuery, IList<ParseError> errors)
     {
         var fullErrorString = "";
@@ -73,5 +96,25 @@ public static class MongoDatabaseExtensions
         }
 
         return agg.Match(parts.FilterDefinition);
+    }
+
+    private static IAggregateFluent<T> AppendLimit<T>(IAggregateFluent<T> agg, QueryParts<T> parts)
+    {
+        if (parts.Limit is null)
+        {
+            return agg;
+        }
+
+        return agg.Limit(parts.Limit.Value);
+    }
+
+    private static IAggregateFluent<T> AppendSkip<T>(IAggregateFluent<T> agg, QueryParts<T> parts)
+    {
+        if (parts.Skip is null)
+        {
+            return agg;
+        }
+
+        return agg.Skip(parts.Skip.Value);
     }
 }

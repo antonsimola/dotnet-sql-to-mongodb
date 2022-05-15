@@ -19,17 +19,20 @@ public class ProjectionBuilderVisitor<T> : TSqlConcreteFragmentVisitor
     {
         var fields = new List<BsonElement>();
 
+        var hasGroupBy = spec.GroupByClause != null;
+
         foreach (var select in spec.SelectElements)
         {
             if (select is SelectStarExpression)
             {
                 return null;
             }
-            
-            
+
+
             select.AcceptChildren(this);
 
-            fields.Add(new BsonElement(currentAsField ?? currentField, GetFieldExpression(currentField)));
+            fields.Add(new BsonElement(currentAsField ?? currentField,
+                GetFieldExpression(hasGroupBy ? currentAsField ?? currentField : currentField)));
             currentField = null;
             currentAsField = null;
         }

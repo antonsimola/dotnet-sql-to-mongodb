@@ -17,6 +17,8 @@ public record User
     public double Salary { get; set; }
     
     public string NullTest { get; set; }
+    public string GroupByTest { get; set; }
+    public string Year { get; set; }
 }
 
 public record Address
@@ -24,3 +26,5 @@ public record Address
     public string Street { get; set; }
     public string Postal { get; set; }
 }
+
+public record Payment(string Year, string Month, double Amount);
