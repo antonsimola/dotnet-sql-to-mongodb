@@ -1,0 +1,29 @@
+﻿<wpf:ResourceDictionary xml:space="preserve" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:ss="urn:shemas-jetbrains-com:settings-storage-xaml" xmlns:wpf="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+	<s:String x:Key="/Default/Environment/AssemblyExplorer/XmlDocument/@EntryValue">&lt;AssemblyExplorer&gt;&#xD;
+  &lt;Assembly Path="C:\Users\Anton\.nuget\packages\microsoft.sqlserver.transactsql.scriptdom\150.4897.1\lib\netstandard2.0\Microsoft.SqlServer.TransactSql.ScriptDom.dll" /&gt;&#xD;
+  &lt;Assembly Path="C:\Users\Anton\.nuget\packages\mongodb.driver\2.15.1\lib\netstandard2.1\MongoDB.Driver.dll" /&gt;&#xD;
+  &lt;Assembly Path="C:\Users\Anton\.nuget\packages\mongodb.driver.core\2.15.1\lib\netstandard2.1\MongoDB.Driver.Core.dll" /&gt;&#xD;
+&lt;/AssemblyExplorer&gt;</s:String>
+	<s:String x:Key="/Default/Environment/Highlighting/HighlightingSourceSnapshotLocation/@EntryValue">C:\Users\Anton\AppData\Local\JetBrains\Rider2022.1\resharper-host\temp\Rider\vAny\CoverageData\_SqlToMongoDB.2108285023\Snapshot\snapshot.utdcvr</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=25d655d9_002D7fb2_002D45d0_002D9dfc_002D58156e6c8d99/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="All tests from WhereTests.cs" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;ProjectFile&gt;ADB50FD7-E5F5-416C-93F3-52DBCBA0A2DC/f:WhereTests.cs&lt;/ProjectFile&gt;&#xD;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=2c9becad_002Dd7a0_002D4c45_002Dbb9e_002D2fa423b08466/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="Double" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;ProjectFile&gt;ADB50FD7-E5F5-416C-93F3-52DBCBA0A2DC/f:WhereTests.cs&lt;/ProjectFile&gt;&#xD;
+&lt;/SessionState&gt;</s:String>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<s:String x:Key="/Default/Housekeeping/UnitTestingMru/UnitTestRunner/SpawnedProcessesKnownList/=mongod_002Eexe/@EntryIndexedValue">KillOrphaned</s:String>
+	
+	
+	</wpf:ResourceDictionary>

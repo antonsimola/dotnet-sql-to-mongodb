@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SQLToMongoDB", "SQLToMongoDB\SQLToMongoDB.csproj", "{3611784A-92FD-44C3-A6DD-78D474F7A8DB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SQLToMongoDBTests", "SQLToMongoDBTests\SQLToMongoDBTests.csproj", "{ADB50FD7-E5F5-416C-93F3-52DBCBA0A2DC}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{3611784A-92FD-44C3-A6DD-78D474F7A8DB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3611784A-92FD-44C3-A6DD-78D474F7A8DB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3611784A-92FD-44C3-A6DD-78D474F7A8DB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3611784A-92FD-44C3-A6DD-78D474F7A8DB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ADB50FD7-E5F5-416C-93F3-52DBCBA0A2DC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ADB50FD7-E5F5-416C-93F3-52DBCBA0A2DC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ADB50FD7-E5F5-416C-93F3-52DBCBA0A2DC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ADB50FD7-E5F5-416C-93F3-52DBCBA0A2DC}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
