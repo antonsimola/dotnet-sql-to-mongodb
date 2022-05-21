@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using MongoDB.Bson.Serialization.Attributes;
 using Newtonsoft.Json;
@@ -19,6 +20,7 @@ public record User
     public string NullTest { get; set; }
     public string GroupByTest { get; set; }
     public string Year { get; set; }
+    public DateTime? DateOfBirth { get; set; }
 }
 
 public record Address

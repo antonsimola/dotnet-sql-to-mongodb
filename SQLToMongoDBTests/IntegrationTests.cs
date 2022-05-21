@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Microsoft.SqlServer.TransactSql.ScriptDom;
 using MongoDB.Driver;
 using NUnit.Framework;
@@ -25,10 +26,21 @@ public class IntegrationTests : BaseMongoTest
     }
 
     [Test]
-    public void SumOfAgeLivingInBlaaStreet()
+    public void AvgAgeOfUsersLivingInBlaaStreet()
     {
         var sql = "SELECT AVG(Age) as AvgAge from users where [Address.Street] = 'BlaaStreet' GROUP BY [Address.Street] ";
-        var res = _client.GetDatabase("db").SqlQuery<dynamic>(sql);
+        var db = _client.GetDatabase("db");
+        var res = db.SqlQuery<dynamic>(sql);
         Assert.AreEqual(3.5, res[0].AvgAge);
+    }
+    
+    [Test]
+    public void SimpleWhere()
+    {
+        var sql = "SELECT * from users where Age > 2 AND [Address.Postal] = '45678'";
+        var db = _client.GetDatabase("db");
+        var res = db.SqlQuery<User>(sql);
+        Assert.AreEqual(2, res.Count);
+        TestUtils.AssertJsonEqual(_dbContent.Skip(2).ToList(), res);
     }
 }

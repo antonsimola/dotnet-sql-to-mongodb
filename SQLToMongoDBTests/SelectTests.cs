@@ -116,18 +116,16 @@ public class SelectTests
         }, list);
     }
 
-    // [Test]
-    // public void ArrayElement()
-    // {
-        // var list = _client.GetDatabase("db").SqlQuery<dynamic>(@"select [Tags.0] as Tag from users");
-        // AssertJsonEqual(new[]
-        // {
-        // new { Tag = "Tag" },
-        // new { Tag = "Tag" }
-        // }, list);
-
-        //does not work on mongodb anyways...
-    // }
+     [Test]
+     public void ArrayElement()
+     {
+         var list = _client.GetDatabase("db").SqlQuery<dynamic>(@"select ArrayElemAt(Tags, 0) as Tag from users");
+         TestUtils.AssertJsonEqual(new[]
+         {
+         new { Tag = "Tag" },
+         new { Tag = "Tag" }
+         }, list);
+     }
 
   
 

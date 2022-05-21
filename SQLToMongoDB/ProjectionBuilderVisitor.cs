@@ -6,13 +6,6 @@ namespace SQLToMongoDB;
 
 public class ProjectionBuilderVisitor<T> : TSqlConcreteFragmentVisitor
 {
-    private BsonElement currentProjection;
-    public bool AllFields { get; set; }
-
-    private ProjectionDefinition<T> def;
-
-    private string? currentField;
-    private string? currentAsField;
     public bool ExcludeIdByDefault { get; set; } = true;
 
     public new ProjectionDefinition<T>? Visit(QuerySpecification spec)
@@ -20,22 +13,28 @@ public class ProjectionBuilderVisitor<T> : TSqlConcreteFragmentVisitor
         var fields = new List<BsonElement>();
 
         var hasGroupBy = spec.GroupByClause != null;
-
-        foreach (var select in spec.SelectElements)
+        
+        if (!hasGroupBy)
         {
-            if (select is SelectStarExpression)
+            foreach (var select in spec.SelectElements)
             {
-                return null;
+                if (select is SelectStarExpression)
+                {
+                    return null;
+                }
+
+                var visitor = new ExpressionVisitor<T>();
+
+                select.AcceptChildren(visitor);
+
+                var newName = visitor.GetColumnNewName();
+
+                //fields.Add(new BsonElement( newName, GetFieldExpression(hasGroupBy ? newName : fieldName)));
+                fields.Add(new BsonElement(newName, visitor.GetAsBsonValue()));
             }
-
-
-            select.AcceptChildren(this);
-
-            fields.Add(new BsonElement(currentAsField ?? currentField,
-                GetFieldExpression(hasGroupBy ? currentAsField ?? currentField : currentField)));
-            currentField = null;
-            currentAsField = null;
         }
+        
+
 
         if (ExcludeIdByDefault)
         {
@@ -45,22 +44,9 @@ public class ProjectionBuilderVisitor<T> : TSqlConcreteFragmentVisitor
         return Builders<T>.Projection.Combine(new BsonDocument(fields));
     }
 
-    public string GetFieldExpression(string field)
-    {
-        return $"${field}";
-    }
 
-    public override void Visit(IdentifierOrValueExpression e)
+    private string GetFieldExpression(string path)
     {
-        Console.WriteLine(e);
-
-        currentAsField = e?.Value;
-        base.Visit(e);
-    }
-
-    public override void Visit(ColumnReferenceExpression e)
-    {
-        currentField = string.Join(".", e.MultiPartIdentifier.Identifiers.Select(s => s.Value));
-        base.Visit(e);
+        return $"${path}";
     }
 }

@@ -52,11 +52,22 @@ public static class MongoDatabaseExtensions
 
         agg = AppendMatch<T>(agg, parts);
         agg = AppendGroupBy(agg, parts);
+        agg = AppendSort(agg, parts);
         agg = AppendProject(agg, parts);
         agg = AppendSkip(agg, parts);
         agg = AppendLimit(agg, parts);
         Console.WriteLine(agg);
         return agg.ToList();
+    }
+
+    private static IAggregateFluent<T> AppendSort<T>(IAggregateFluent<T> agg, QueryParts<T> parts)
+    {
+        if (parts.OrderByDefinition == null)
+        {
+            return agg;
+        }
+
+        return agg.Sort(parts.OrderByDefinition);
     }
 
     private static IAggregateFluent<T> AppendGroupBy<T>(IAggregateFluent<T> agg, QueryParts<T> parts)

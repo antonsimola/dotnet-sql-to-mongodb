@@ -21,6 +21,7 @@ public class MongoQueryBuilderVisitor<T> : TSqlFragmentVisitor
             QueryParts.ProjectionDefinition = new ProjectionBuilderVisitor<T>().Visit(spec);
             QueryParts.FilterDefinition = new FilterBuilderVisitor<T>().Visit(spec);
             QueryParts.GroupByDefinition = new GroupByBuilderVisitor<T>().Visit(spec);
+            QueryParts.OrderByDefinition = new OrderByBuilderVisitor<T>().Visit(spec);
             var (skip,limit) = new SkipLimitVisitor<T>().Visit(spec);
             QueryParts.Limit = limit;
             QueryParts.Skip = skip;

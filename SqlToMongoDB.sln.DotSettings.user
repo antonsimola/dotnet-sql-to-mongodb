@@ -3,20 +3,18 @@
   &lt;Assembly Path="C:\Users\Anton\.nuget\packages\microsoft.sqlserver.transactsql.scriptdom\150.4897.1\lib\netstandard2.0\Microsoft.SqlServer.TransactSql.ScriptDom.dll" /&gt;&#xD;
   &lt;Assembly Path="C:\Users\Anton\.nuget\packages\mongodb.driver\2.15.1\lib\netstandard2.1\MongoDB.Driver.dll" /&gt;&#xD;
   &lt;Assembly Path="C:\Users\Anton\.nuget\packages\mongodb.driver.core\2.15.1\lib\netstandard2.1\MongoDB.Driver.Core.dll" /&gt;&#xD;
+  &lt;Assembly Path="C:\Users\Anton\.nuget\packages\mongodb.bson\2.15.1\lib\netstandard2.1\MongoDB.Bson.dll" /&gt;&#xD;
 &lt;/AssemblyExplorer&gt;</s:String>
 	<s:String x:Key="/Default/Environment/Highlighting/HighlightingSourceSnapshotLocation/@EntryValue">C:\Users\Anton\AppData\Local\JetBrains\Rider2022.1\resharper-host\temp\Rider\vAny\CoverageData\_SqlToMongoDB.2108285023\Snapshot\snapshot.utdcvr</s:String>
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=25d655d9_002D7fb2_002D45d0_002D9dfc_002D58156e6c8d99/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="All tests from WhereTests.cs" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
-  &lt;Or&gt;&#xD;
-    &lt;ProjectFile&gt;ADB50FD7-E5F5-416C-93F3-52DBCBA0A2DC/f:WhereTests.cs&lt;/ProjectFile&gt;&#xD;
-    &lt;TestAncestor&gt;&#xD;
-      &lt;TestId&gt;NUnit3x::ADB50FD7-E5F5-416C-93F3-52DBCBA0A2DC::net6.0::SQLToMongoDBTests.GroupByTests.DeepAs&lt;/TestId&gt;&#xD;
-    &lt;/TestAncestor&gt;&#xD;
-  &lt;/Or&gt;&#xD;
-&lt;/SessionState&gt;</s:String>
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=2c9becad_002Dd7a0_002D4c45_002Dbb9e_002D2fa423b08466/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="Double" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=1678329a_002Dbbd8_002D4119_002D8178_002D8f5596933579/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="All tests from &amp;lt;SQLToMongoDBTests&amp;gt; #2" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
   &lt;Project Location="C:\Users\Anton\RiderProjects\SqlToMongoDB\SQLToMongoDBTests" Presentation="&amp;lt;SQLToMongoDBTests&amp;gt;" /&gt;&#xD;
 &lt;/SessionState&gt;</s:String>
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=ed443c6d_002D87c3_002D48e7_002D8292_002De450a914974c/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="All tests from &amp;lt;SQLToMongoDBTests&amp;gt;" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=506151b5_002Da30e_002D4257_002Db3d1_002Dffa946f4539d/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="SimpleOrderByName" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;Project Location="C:\Users\Anton\RiderProjects\SqlToMongoDB\SQLToMongoDBTests" Presentation="&amp;lt;SQLToMongoDBTests&amp;gt;" /&gt;&#xD;
+&lt;/SessionState&gt;</s:String>
+	
+	
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=ed443c6d_002D87c3_002D48e7_002D8292_002De450a914974c/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="All tests from &amp;lt;SQLToMongoDBTests&amp;gt;" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
   &lt;Project Location="C:\Users\Anton\RiderProjects\SqlToMongoDB\SQLToMongoDBTests" Presentation="&amp;lt;SQLToMongoDBTests&amp;gt;" /&gt;&#xD;
 &lt;/SessionState&gt;</s:String>
 	

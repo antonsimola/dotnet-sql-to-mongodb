@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Dynamic;
+using System.Linq;
 using Mongo2Go;
 using MongoDB.Driver;
 using NUnit.Framework;
@@ -44,11 +46,13 @@ public class WhereTests
             new User()
             {
                 Name = "Hello", Age = 1, Salary = 1000.0, NullTest = "HasValue",
+                DateOfBirth = new DateTime(2000,1,1,0,0,0,DateTimeKind.Utc),
                 Address = { Postal = "12345", Street = "HelloStreet" },
                 Tags = new List<string>() { "Tag", "Tag2" }
             },
             new User()
             {
+                DateOfBirth = new DateTime(2010,1,1,0,0,0,DateTimeKind.Utc),
                 Name = "World", Age = 2, Salary = 2000.0, Address = { Postal = "12345", Street = "WorldStreet", },
                 Tags = new List<string>() { "Tag" }
             }
@@ -134,12 +138,29 @@ public class WhereTests
     }
 
     [Test]
-    public void ExpressionFlipped()
+    public void EqFlipped()
     {
         var list = _client.GetDatabase("db")
             .SqlQuery<dynamic>(@"select * from users where  'HelloStreet' = Address.Street ");
         AssertJsonEqual(new List<dynamic>() { _dbContent[0] }, list);
     }
+    
+    [Test]
+    public void GtFlipped()
+    {
+        var list = _client.GetDatabase("db")
+            .SqlQuery<dynamic>(@"select * from users where 'HelloStreet' > Address.Street ");
+        AssertJsonEqual(new List<dynamic>() { }, list);
+    }
+    
+    [Test]
+    public void GtString()
+    {
+        var list = _client.GetDatabase("db")
+            .SqlQuery<dynamic>(@"select * from users where Address.Street > 'HelloStreet' ");
+        AssertJsonEqual(new List<dynamic>() { _dbContent[1] }, list);
+    }
+
 
     [Test]
     public void And()
@@ -242,13 +263,40 @@ public class WhereTests
             .SqlQuery<dynamic>(@"select * from users where NullTest IS NOT NULL");
         AssertJsonEqual(new List<User>() { _dbContent[0] }, list);
     }
-
+    
+    
     [Test]
-    public void ExprArithmetic()
+    public void DateEq()
     {
         var list = _client.GetDatabase("db")
-            .SqlQuery<dynamic>(@"select * from users where Age = 2 * 1 + 1 - 1 / 1"); // = 2
+            .SqlQuery<dynamic>(@"select * from users where DateOfBirth = ISODate('2000-01-01')");
+        AssertJsonEqual(new List<User>() { _dbContent[0] }, list);
+    }
+    
+    
+    [Test]
+    public void DateGt()
+    {
+        
+        var list = _client.GetDatabase("db")
+            .SqlQuery<dynamic>(@"select * from users where DateOfBirth > ISODate('2000-01-01')");
         AssertJsonEqual(new List<User>() { _dbContent[1] }, list);
+    }
+    
+    [Test]
+    public void DateBetween()
+    {
+        var list = _client.GetDatabase("db")
+            .SqlQuery<dynamic>(@"select * from users where DateOfBirth BETWEEN ISODate('2000-01-01') and ISODate('2005-01-01')");
+        AssertJsonEqual(new List<User>() { _dbContent[0] }, list);
+    }
+    
+    [Test]
+    public void AgeBetween()
+    {
+        var list = _client.GetDatabase("db")
+            .SqlQuery<dynamic>(@"select * from users where Age BETWEEN 0 and 1");
+        AssertJsonEqual(_dbContent.Take(1), list);
     }
     
     [Test]
@@ -257,5 +305,37 @@ public class WhereTests
         var list = _client.GetDatabase("db")
             .SqlQuery<dynamic>(@"select * from users where Age = 1 + 1");
         AssertJsonEqual(new List<User>() { _dbContent[1] }, list);
+    }
+    
+    [Test]
+    public void ExprAddSub()
+    {
+        var list = _client.GetDatabase("db")
+            .SqlQuery<dynamic>(@"select * from users where Age = 1-1+1-1+1");
+        AssertJsonEqual(new List<User>() { _dbContent[0] }, list);
+    }
+    
+    [Test]
+    public void ExprColMulDivide()
+    {
+        var list = _client.GetDatabase("db")
+            .SqlQuery<dynamic>(@"select * from users where Age =  (Age * 2) / 2");
+        AssertJsonEqual(_dbContent, list);
+    }
+    
+    [Test]
+    public void ExprMod()
+    {
+        var list = _client.GetDatabase("db")
+            .SqlQuery<dynamic>(@"select * from users where Age % 2 = 0");
+        AssertJsonEqual(new List<User>() { _dbContent[1] }, list);
+    }
+    
+    [Test]
+    public void PrecedenceArithmetic()
+    {
+        var list = _client.GetDatabase("db")
+            .SqlQuery<dynamic>(@"select * from users where Age =  (1 + 1 / 2 * (4/2)) - 1 ");
+        AssertJsonEqual(new List<User>() { _dbContent[0] }, list);
     }
 }
