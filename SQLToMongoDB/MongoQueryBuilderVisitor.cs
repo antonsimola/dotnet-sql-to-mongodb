@@ -38,7 +38,7 @@ public class MongoQueryBuilderVisitor<T> : TSqlFragmentVisitor
         }
         else
         {
-            throw new NotImplementedException("unknown Query Expression " + statement.QueryExpression.GetType());
+            throw new NotImplementedException("unknown statement " + statement.QueryExpression.GetType());
         }
     }
 

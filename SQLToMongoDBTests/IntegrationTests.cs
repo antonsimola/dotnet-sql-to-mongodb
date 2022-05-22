@@ -28,12 +28,26 @@ public class IntegrationTests : BaseMongoTest
     [Test]
     public void AvgAgeOfUsersLivingInBlaaStreet()
     {
-        var sql = "SELECT AVG(Age) as AvgAge from users where [Address.Street] = 'BlaaStreet' GROUP BY [Address.Street] ";
+        var sql =
+            "SELECT AVG(Age) as AvgAge from users where [Address.Street] = 'BlaaStreet' GROUP BY [Address.Street] ";
         var db = _client.GetDatabase("db");
         var res = db.SqlQuery<dynamic>(sql);
         Assert.AreEqual(3.5, res[0].AvgAge);
     }
     
+    [Test]
+    public void WhereGroupByOrderBy()
+    {
+        
+        ///TODO we need to look into order by, and also include aggregation functions from there to the group by 
+        var sql =
+            "SELECT [Address.Postal] as Postal, Sum(Age) as SumAge from users where Age > 1 GROUP BY [Address.Postal] Order By Count(_id) DESC";
+        var db = _client.GetDatabase("db");
+        var res = db.SqlQuery<dynamic>(sql);
+        Assert.AreEqual(3.5, res[0].SumAge);
+    }
+
+
     [Test]
     public void SimpleWhere()
     {

@@ -47,13 +47,17 @@ public static class MongoDatabaseExtensions
 
         var parts = mongoQueryBuilderVisitor.QueryParts;
 
+        if (parts == null)
+        {
+            throw new Exception("Didnt find any select statements. It does not support insert or update");
+        }
+        
         var coll = db.GetCollection<T>(parts.CollectionName);
 
         var agg = coll.Aggregate();
-
-        agg = AppendJoin<T>(agg, parts);
-
+        
         agg = AppendMatch<T>(agg, parts);
+        agg = AppendJoin<T>(agg, parts);
         agg = AppendGroupBy(agg, parts);
         agg = AppendSort(agg, parts);
         agg = AppendProject(agg, parts, options);

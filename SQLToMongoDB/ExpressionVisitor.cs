@@ -216,7 +216,10 @@ public class ExpressionVisitor<T> : TSqlConcreteFragmentVisitor
             parameters.Insert(0, SubExpressions.Pop());
         }
 
-        
+        if (!SupportedFunctions.Functions.ContainsKey(funcLower))
+        {
+            throw new Exception($"Unsupported function {e.FunctionName.Value}");
+        }
         
         SubExpressions.Push(SupportedFunctions.Functions[funcLower](funcLower, parameters.ToArray()));
     }
