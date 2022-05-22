@@ -14,4 +14,5 @@ public class QueryParts<T>
     public int? Limit { get; set; }
     public int? Skip { get; set; }
     public SortDefinition<T>? OrderByDefinition { get; set; }
+    public JoinDefinition? JoinDefinition { get; set; }
 }

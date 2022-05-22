@@ -1,22 +1,20 @@
 ﻿using System.Globalization;
 using Microsoft.SqlServer.TransactSql.ScriptDom;
 using MongoDB.Bson;
-using MongoDB.Libmongocrypt;
 
 namespace SQLToMongoDB;
 
 public class ExpressionVisitor<T> : TSqlConcreteFragmentVisitor
 {
-    private Stack<object?> SubExpressions = new ();
+    private Stack<object?> SubExpressions = new();
 
     private string? AsFieldName { get; set; }
     private string? FieldName { get; set; }
-    private string? FunctionName { get; set; }    
+    private string? FunctionName { get; set; }
+
     public BsonDocument GetAsBsonDocument()
     {
-
-
-        return (BsonDocument) GetAsObject();
+        return (BsonDocument)GetAsObject();
     }
 
     public BsonValue GetAsBsonValue()
@@ -38,9 +36,9 @@ public class ExpressionVisitor<T> : TSqlConcreteFragmentVisitor
 
     public string? GetColumnNewName()
     {
-        return AsFieldName ??  ( FieldName == "*" ? FunctionName : FieldName);
+        return AsFieldName ?? (FieldName == "*" ? FunctionName : FieldName);
     }
-    
+
     public string? GetColumnName()
     {
         return FieldName;
@@ -99,12 +97,12 @@ public class ExpressionVisitor<T> : TSqlConcreteFragmentVisitor
         {
             var path = string.Join(".", node.MultiPartIdentifier.Identifiers.Select(s => s.Value));
             SubExpressions.Push($"${path}");
-            FieldName = path;    
+            FieldName = path;
         }
-        
+
         base.Visit(node);
     }
-    
+
     public override void Visit(IdentifierOrValueExpression e)
     {
         AsFieldName = e?.Value;
@@ -163,7 +161,7 @@ public class ExpressionVisitor<T> : TSqlConcreteFragmentVisitor
 
         var left = leftVisitor.GetAsObject();
         var right = rightVisitor.GetAsObject();
-        
+
         BsonDocument expr = node.ComparisonType switch
         {
             BooleanComparisonType.Equals => new BsonDocument("$eq", new BsonArray(new[] { left, right })),
@@ -208,6 +206,7 @@ public class ExpressionVisitor<T> : TSqlConcreteFragmentVisitor
 
         FunctionName = e.FunctionName.Value;
         
+        
         base.ExplicitVisit(e); // this will visit the parameters, they are pushed to stack
 
         var parameters = new List<object>();
@@ -216,17 +215,10 @@ public class ExpressionVisitor<T> : TSqlConcreteFragmentVisitor
         {
             parameters.Insert(0, SubExpressions.Pop());
         }
+
         
-        object func = funcLower switch
-        {
-            "sum" or "avg" or "min" or "max" => new BsonDocument($"${funcLower}", BsonValue.Create(parameters[0])),
-            "count" => new BsonDocument($"$sum", 1),
-            "isodate" => DateTime.SpecifyKind(DateTime.Parse((string)parameters[0]), DateTimeKind.Utc),
-            
-            "arrayelemat"  => new BsonDocument($"$arrayElemAt", new BsonArray(parameters)),
-            _ => throw new ArgumentOutOfRangeException(e.FunctionName.Value)
-        };
-        SubExpressions.Push(func);
+        
+        SubExpressions.Push(SupportedFunctions.Functions[funcLower](funcLower, parameters.ToArray()));
     }
 
     public override void ExplicitVisit(BinaryExpression node)
@@ -253,8 +245,6 @@ public class ExpressionVisitor<T> : TSqlConcreteFragmentVisitor
             BinaryExpressionType.BitwiseXor => throw new ArgumentOutOfRangeException(type.ToString()),
             _ => throw new ArgumentOutOfRangeException(type.ToString())
         };
-        SubExpressions.Push(new BsonDocument(oper,new BsonArray(new []{left,right})));
-
-
+        SubExpressions.Push(new BsonDocument(oper, new BsonArray(new[] { left, right })));
     }
 }

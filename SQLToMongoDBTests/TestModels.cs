@@ -16,7 +16,7 @@ public record User
 
     public IList<string> Tags { get; set; } = new List<string>();
     public double Salary { get; set; }
-    
+
     public string NullTest { get; set; }
     public string GroupByTest { get; set; }
     public string Year { get; set; }
@@ -30,3 +30,11 @@ public record Address
 }
 
 public record Payment(string Year, string Month, double Amount);
+
+public record PaymentWithDate(DateTime Timestamp, double Amount);
+
+public record Order(string Id, DateTime OrderTime);
+
+public record Item(string Id, string OrderId, string Name, int Quantity);
+
+public record OrderWithItems(string Id, DateTime OrderTime,  IList<Item> Items);

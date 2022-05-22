@@ -8,26 +8,12 @@ using SQLToMongoDB;
 
 namespace SQLToMongoDBTests;
 
-public class SelectTests
+public class SelectTests : BaseMongoTest
 {
-    private MongoDbRunner db;
-
-    private string _connString = "mongodb://localhost:27017";
-
-    private MongoClient _client;
-
     private List<User> _dbContent;
 
-    [OneTimeSetUp]
-    public void Setup()
-    {
-        db = Mongo2Go.MongoDbRunner.Start(singleNodeReplSet: true);
-        _connString = db.ConnectionString;
-        _client = new MongoClient(_connString);
-        SetupData(_client);
-    }
 
-    private void SetupData(MongoClient client)
+    public override void SetupData(MongoClient client)
     {
         var coll = client.GetDatabase("db").GetCollection<User>("users");
 
@@ -70,7 +56,8 @@ public class SelectTests
                 d with { Address = new Address() { Postal = null, Street = null }, Tags = new List<string>() })
             .ToList();
 
-        TestUtils.AssertJsonEqual(coupleFields, _client.GetDatabase("db").SqlQuery<User>("select Name, Age from users"));
+        TestUtils.AssertJsonEqual(coupleFields,
+            _client.GetDatabase("db").SqlQuery<User>("select Name, Age from users"));
     }
 
 
@@ -116,23 +103,37 @@ public class SelectTests
         }, list);
     }
 
-     [Test]
-     public void ArrayElement()
-     {
-         var list = _client.GetDatabase("db").SqlQuery<dynamic>(@"select ArrayElemAt(Tags, 0) as Tag from users");
-         TestUtils.AssertJsonEqual(new[]
-         {
-         new { Tag = "Tag" },
-         new { Tag = "Tag" }
-         }, list);
-     }
-
-  
-
-
-    [OneTimeTearDown]
-    public void Cleanup()
+    [Test]
+    public void ArrayElement()
     {
-        db?.Dispose();
+        var list = _client.GetDatabase("db").SqlQuery<dynamic>(@"select ArrayElemAt(Tags, 0) as Tag from users");
+        TestUtils.AssertJsonEqual(new[]
+        {
+            new { Tag = "Tag" },
+            new { Tag = "Tag" }
+        }, list);
+    }
+
+    [Test]
+    public void ConcatToString()
+    {
+        var list = _client.GetDatabase("db")
+            .SqlQuery<dynamic>(@"select  Concat(Name,  ToString(Age)) as NameAge from users");
+        TestUtils.AssertJsonEqual(new[]
+        {
+            new { NameAge = "Hello1" },
+            new { NameAge = "World2" }
+        }, list);
+    }
+
+    [Test]
+    public void Arithmetic()
+    {
+        var list = _client.GetDatabase("db").SqlQuery<dynamic>(@"select Round((Age  / 2) * 3, 1) as Age  from users");
+        TestUtils.AssertJsonEqual(new[]
+        {
+            new { Age = 1.5 },
+            new { Age = 3.0 }
+        }, list);
     }
 }

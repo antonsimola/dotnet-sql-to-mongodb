@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Mongo2Go;
 using MongoDB.Driver;
@@ -49,129 +50,64 @@ public class GroupByTests : BaseMongoTest
     }
 
 
-    [Test]
-    public void SimpleSum()
+    public record Case(string Query, object Expected, Func<dynamic,dynamic> orderBy = null );
+
+    public static Case[] GetCases()
     {
-        var list = _client.GetDatabase("db").SqlQuery<dynamic>(@"SELECT SUM(Age) FROM users GROUP BY GroupByTest");
-        AssertJsonEqual(new[]
+        return new Case[]
         {
-            new { Age = 3 },
-        }, list);
+            new(@"SELECT SUM(Age) FROM users GROUP BY GroupByTest", new[] { new { Age = 3 } }),
+
+            new(@"SELECT Max(Age) FROM users GROUP BY GroupByTest", new[] { new { Age = 2 } }),
+
+            new(@"SELECT MIN(Age) FROM users GROUP BY GroupByTest", new[] { new { Age = 1 } }),
+
+            new(@"SELECT AVG(Age) FROM users GROUP BY GroupByTest", new[] { new { Age = 1.5 }, }),
+
+            new(@"SELECT SUM(Age) as SumAge FROM users GROUP BY GroupByTest", new[] { new { SumAge = 3 }, }),
+
+            new(
+                @"SELECT Sum(Age) as sum, Min(Age) as min, max(Age) as max, AVG(Age) as avg  FROM users GROUP BY GroupByTest",
+                new[]
+                {
+                    new { sum = 3, min = 1, max = 2, avg = 1.5 },
+                }),
+
+            new(@"SELECT Sum(Amount) as SumAmount, Year, Month  FROM payments GROUP BY Year, Month Order by Month",
+                new[]
+                {
+                    new { SumAmount = 3000.0, Year = "2020", Month = "Feb" },
+                    new { SumAmount = 3000.0, Year = "2020", Month = "Jan" },
+                }, d => d.Month),
+
+            new(@"SELECT Avg(Age) as AvgAge, MIN(Address.Postal) as Postal FROM users GROUP BY Address.Postal",
+                new[] { new { AvgAge = 1.5, Postal = "12345" } }),
+
+            new(@"SELECT Avg(Age) as AvgAge, Address.Postal as Postal FROM users GROUP BY Address.Postal", new[]
+            {
+                new { AvgAge = 1.5, Postal = "12345" }
+            }),
+
+            new(@"SELECT Avg(Age), Name, Address.Street FROM users GROUP BY Name, Address.Street", new[]
+            {
+                new { Age = 1.0, Name = "Hello", Address = new { Street = "HelloStreet" } },
+                new { Age = 2.0, Name = "World", Address = new { Street = "WorldStreet" } }
+            }),
+
+
+            new(@"SELECT Count(*) FROM payments GROUP BY NULL", new[] { new { Count = 3 } })
+        };
     }
 
     [Test]
-    public void SimpleMax()
+    public void TestGroupBy([ValueSource(nameof(GetCases))] Case testCase)
     {
-        var list = _client.GetDatabase("db").SqlQuery<dynamic>(@"SELECT Max(Age) FROM users GROUP BY GroupByTest");
-        AssertJsonEqual(new[]
+        var list = _client.GetDatabase("db").SqlQuery<dynamic>(testCase.Query);
+        if (testCase.orderBy != null)
         {
-            new { Age = 2 },
-        }, list);
-    }
-
-    [Test]
-    public void SimpleMin()
-    {
-        var list = _client.GetDatabase("db").SqlQuery<dynamic>(@"SELECT MIN(Age) FROM users GROUP BY GroupByTest");
-        AssertJsonEqual(new[]
-        {
-            new { Age = 1 },
-        }, list);
-    }
-
-    [Test]
-    public void SimpleAvg()
-    {
-        var list = _client.GetDatabase("db").SqlQuery<dynamic>(@"SELECT AVG(Age) FROM users GROUP BY GroupByTest");
-        AssertJsonEqual(new[]
-        {
-            new { Age = 1.5 },
-        }, list);
-    }
-
-
-    [Test]
-    public void SimpleSumAs()
-    {
-        var list = _client.GetDatabase("db")
-            .SqlQuery<dynamic>(@"SELECT SUM(Age) as SumAge FROM users GROUP BY GroupByTest");
-        AssertJsonEqual(new[]
-        {
-            new { SumAge = 3 },
-        }, list);
-    }
-
-    [Test]
-    public void MultipleAggs()
-    {
-        var list = _client.GetDatabase("db")
-            .SqlQuery<dynamic>(
-                @"SELECT Sum(Age) as sum, Min(Age) as min, max(Age) as max, AVG(Age) as avg  FROM users GROUP BY GroupByTest");
-        AssertJsonEqual(new[]
-        {
-            new { sum = 3, min = 1, max = 2, avg = 1.5 },
-        }, list);
-    }
-
-    [Test]
-    public void MultiGroup()
-    {
-        var list = _client.GetDatabase("db")
-            .SqlQuery<dynamic>(
-                @"SELECT Sum(Amount) as SumAmount, MIN(Year), Min(Month)  FROM payments GROUP BY Year, Month");
-        AssertJsonEqual(new[]
-        {
-            new { SumAmount = 3000.0, Year = "2020", Month = "Jan" },
-            new { SumAmount = 3000.0, Year = "2020", Month = "Feb" },
-        }, list.OrderByDescending(s => s.Month)); // return in random order
-    }
-
-    [Test]
-    public void GroupDeep()
-    {
-        var list = _client.GetDatabase("db")
-            .SqlQuery<dynamic>(
-                @"SELECT Avg(Age) as AvgAge, MIN(Address.Postal) as Postal FROM users GROUP BY Address.Postal");
-        AssertJsonEqual(new[]
-        {
-            new { AvgAge = 1.5, Postal = "12345" }
-        }, list);
-    }
-
-    [Test]
-    public void GroupSelectKey()
-    {
-        var list = _client.GetDatabase("db")
-            .SqlQuery<dynamic>(
-                @"SELECT Avg(Age) as AvgAge, Address.Postal as Postal FROM users GROUP BY Address.Postal");
-        AssertJsonEqual(new[]
-        {
-            new { AvgAge = 1.5, Postal = "12345" }
-        }, list);
-    }
-
-    [Test]
-    public void GroupSelectKeyDeep()
-    {
-        var list = _client.GetDatabase("db")
-            .SqlQuery<dynamic>(
-                @"SELECT Avg(Age), Name, Address.Street FROM users GROUP BY Name, Address.Street");
-        AssertJsonEqual(new[]
-        {
-            new { Age = 1.0, Name = "Hello", Address = new { Street = "HelloStreet" } },
-            new { Age = 2.0, Name = "World", Address = new { Street = "WorldStreet" } }
-        }, list.OrderBy(i => i.Age));
-    }
-    
-    [Test]
-    public void GroupByCounting()
-    {
-        var list = _client.GetDatabase("db")
-            .SqlQuery<dynamic>(
-                @"SELECT Count(*) FROM payments GROUP BY NULL");
-        AssertJsonEqual(new[]
-        {
-            new { Count = 3}
-        }, list);
+            list = list.OrderBy(testCase.orderBy).ToList();
+            
+        }
+        AssertJsonEqual(testCase.Expected, list);
     }
 }

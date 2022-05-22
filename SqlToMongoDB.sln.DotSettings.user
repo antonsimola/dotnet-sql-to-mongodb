@@ -9,8 +9,30 @@
 	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=1678329a_002Dbbd8_002D4119_002D8178_002D8f5596933579/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="All tests from &amp;lt;SQLToMongoDBTests&amp;gt; #2" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
   &lt;Project Location="C:\Users\Anton\RiderProjects\SqlToMongoDB\SQLToMongoDBTests" Presentation="&amp;lt;SQLToMongoDBTests&amp;gt;" /&gt;&#xD;
 &lt;/SessionState&gt;</s:String>
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=506151b5_002Da30e_002D4257_002Db3d1_002Dffa946f4539d/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="SimpleOrderByName" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=1b9c1ca0_002Df592_002D476c_002D8b18_002D3317c7b37e40/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="All tests from &amp;lt;SQLToMongoDBTests&amp;gt; #4" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
   &lt;Project Location="C:\Users\Anton\RiderProjects\SqlToMongoDB\SQLToMongoDBTests" Presentation="&amp;lt;SQLToMongoDBTests&amp;gt;" /&gt;&#xD;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=25d30b30_002Da928_002D4136_002Da883_002Dfcbf6a847476/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="All tests from &amp;lt;SQLToMongoDBTests&amp;gt; #3" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;Project Location="C:\Users\Anton\RiderProjects\SqlToMongoDB\SQLToMongoDBTests" Presentation="&amp;lt;SQLToMongoDBTests&amp;gt;" /&gt;&#xD;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=2e288f6c_002Dcfa1_002D4e1e_002Dac61_002D79c74d6f3bcc/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="SimpleJoin #2" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;TestAncestor&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::ADB50FD7-E5F5-416C-93F3-52DBCBA0A2DC::net6.0::SQLToMongoDBTests.JoinTests.SimpleJoin&lt;/TestId&gt;&#xD;
+  &lt;/TestAncestor&gt;&#xD;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=506151b5_002Da30e_002D4257_002Db3d1_002Dffa946f4539d/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="SimpleOrderByName" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;Project Location="C:\Users\Anton\RiderProjects\SqlToMongoDB\SQLToMongoDBTests" Presentation="&amp;lt;SQLToMongoDBTests&amp;gt;" /&gt;&#xD;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=6bc9a4b6_002Ddcd8_002D41d3_002Daeee_002D599988ac326f/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="All tests from &amp;lt;SQLToMongoDBTests&amp;gt; #5" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;Project Location="C:\Users\Anton\RiderProjects\SqlToMongoDB\SQLToMongoDBTests" Presentation="&amp;lt;SQLToMongoDBTests&amp;gt;" /&gt;&#xD;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=bbf02d03_002Dd3df_002D4d6a_002Dada2_002D24b3543cfba7/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="SimpleJoin #3" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;Solution /&gt;&#xD;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=ce8b93f9_002D8f3d_002D4925_002Da65a_002D573768f8bbf1/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="SimpleJoin" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;TestAncestor&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::ADB50FD7-E5F5-416C-93F3-52DBCBA0A2DC::net6.0::SQLToMongoDBTests.JoinTests.SimpleJoin&lt;/TestId&gt;&#xD;
+  &lt;/TestAncestor&gt;&#xD;
 &lt;/SessionState&gt;</s:String>
 	
 	
